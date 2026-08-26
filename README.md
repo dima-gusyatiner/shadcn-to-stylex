@@ -6,12 +6,17 @@ of a modern design-system stack).
 
 **One hand-written HTML file. No build step. No dependencies. No network requests.**
 
-## View it
+## ▶ View it live
+
+**https://dima-gusyatiner.github.io/shadcn-to-stylex/**
+
+Every slide is deep-linkable — e.g. [the cheat sheet](https://dima-gusyatiner.github.io/shadcn-to-stylex/#29)
+or [the interactive merge playground](https://dima-gusyatiner.github.io/shadcn-to-stylex/#10).
+
+## Run it locally
 
 - Open `index.html` in a browser. That's it.
 - Or serve it: `npx serve .`
-- Or publish on **GitHub Pages**: repo *Settings → Pages → Deploy from a branch →* `main` `/ (root)`.
-  The deck is a single `index.html`, so it just works.
 
 ## What's inside (30 slides)
 
