@@ -3,17 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>shadcn/ui → StyleX — a field guide</title>
-<meta name="description" content="A standalone slide course for engineers moving from shadcn/ui + Tailwind to StyleX — mental shifts, how the compiler works, a translation cookbook, and a cheat sheet.">
+<title>Tailwind vs StyleX — a field guide</title>
+<meta name="description" content="A standalone slide deck comparing Tailwind CSS and StyleX — two takes on atomic styling. How each works, where they genuinely split, side-by-side translations, and honest tradeoffs.">
 <meta name="theme-color" content="#0b0e17">
-<meta property="og:title" content="shadcn/ui → StyleX — a field guide">
-<meta property="og:description" content="30 slides, one HTML file, zero dependencies. Everything a Tailwind-brained engineer needs to feel at home in a compiled, typed styling world.">
+<meta property="og:title" content="Tailwind vs StyleX — a field guide">
+<meta property="og:description" content="30 slides, one HTML file, zero dependencies. Two takes on atomic styling, compared honestly — wherever you're coming from.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://dima-gusyatiner.github.io/tailwind-vs-stylex/">
+<meta property="og:image" content="https://dima-gusyatiner.github.io/tailwind-vs-stylex/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tailwind vs StyleX — a field guide">
+<meta name="twitter:description" content="30+ slides, one HTML file, zero dependencies. Two takes on atomic styling, compared honestly.">
+<meta name="twitter:image" content="https://dima-gusyatiner.github.io/tailwind-vs-stylex/og.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%2322d3ee'/%3E%3Cstop%20offset='1'%20stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='url(%23g)'/%3E%3Ctext%20x='32'%20y='44'%20font-size='34'%20text-anchor='middle'%20fill='white'%20font-family='monospace'%3E%E2%86%92%3C/text%3E%3C/svg%3E">
 <style>
 /* ============================================================
-   shadcn/ui → StyleX — a field guide
+   Tailwind vs StyleX — a field guide
    One file. No build step. View source, fork, enjoy.
+   Sibling deck: radix-vs-react-aria (same engine).
    ============================================================ */
 :root{
   --bg:#07090f; --bg2:#0b0e17; --panel:#0d1117;
@@ -65,6 +72,8 @@ h2 em{font-style:normal;color:var(--acc)}
 .lead strong{color:var(--text);font-weight:600}
 .foot{margin-top:auto;padding-top:14px;font-size:13.5px;color:var(--faint);line-height:1.5}
 .foot b{color:var(--muted);font-weight:600}
+.sbody a{color:var(--acc);text-decoration:none;border-bottom:1px solid color-mix(in oklab,var(--acc) 45%,transparent)}
+.sbody a:hover{border-bottom-color:var(--acc)}
 
 /* ---------- text blocks ---------- */
 ul.pts{margin:0;padding:0;list-style:none}
@@ -92,6 +101,18 @@ kbd{font:600 11.5px var(--mono);background:#161c26;border:1px solid var(--line);
 .badge{display:inline-block;font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:3px 10px;color:var(--muted)}
 .badge.cy{color:var(--cyan);border-color:rgba(34,211,238,.35)}
 .badge.pk{color:var(--pink);border-color:rgba(244,114,182,.35)}
+.card.tw{border-top:2px solid rgba(34,211,238,.75)}
+.card.sx{border-top:2px solid rgba(244,114,182,.75)}
+.card .lbl{display:block;font:600 10.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;margin-bottom:9px}
+.card.tw .lbl{color:var(--cyan)} .card.sx .lbl{color:var(--pink)}
+.card ul.pts li{font-size:14.5px;margin:8px 0;padding-left:20px}
+.card ul.pts li::before{top:.62em;width:8px}
+.card.tw ul.pts li::before{background:var(--cyan)} .card.sx ul.pts li::before{background:var(--pink)}
+.cost{margin-top:12px;padding-top:11px;border-top:1px dashed var(--line);font-size:13.5px;line-height:1.5;color:var(--faint)}
+.cost b{color:var(--muted);font-weight:600;letter-spacing:.02em}
+.cols.vc{margin-block:auto;align-items:stretch}
+.cols.vc>.card{display:flex;flex-direction:column}
+.cols.vc>.card .cost{margin-top:auto}
 
 /* ---------- tables ---------- */
 table{width:100%;border-collapse:collapse}
@@ -205,11 +226,11 @@ html.ov #hint,html.ov #hud .hbtn.nav{display:none}
   <header><span class="kicker">A field guide</span><span class="snum"></span></header>
   <div class="deco">.x1uy60zk{color:#e2e8f0}<br>.x1717udv{background-color:#0b0e17}<br>.x1lq5wgf{border-radius:12px}<br>.xjm3rkr{display:inline-flex}<br>.x1ke80jw{padding-inline:12px}</div>
   <div class="sbody">
-    <p class="pre">A course for the crossing</p>
-    <h1><span class="from">shadcn/ui</span><span class="arrow">→</span><span class="to">StyleX</span></h1>
-    <p class="sub">Everything a Tailwind-brained engineer needs to feel at home in a compiled, typed
-    styling world — how it works, what changes, and the mental shifts that make it click.
-    Built for joining a <strong>StyleX + React&nbsp;Aria</strong> design-system codebase.</p>
+    <p class="pre">Two takes on atomic styling</p>
+    <h1><span class="from">Tailwind</span><span class="arrow">vs</span><span class="to">StyleX</span></h1>
+    <p class="sub">Two tools that agree the output should be atomic CSS — and disagree about almost
+    everything else. How each one works, where they genuinely split, and how to read both
+    fluently, <strong>wherever you're coming from</strong>.</p>
     <div class="meta">30 slides · one HTML file · zero dependencies · press <kbd>→</kbd> to begin, <kbd>O</kbd> for overview</div>
   </div>
   <div class="foot">MIT licensed · everything on screen is one hand-written HTML file — view source.</div>
@@ -219,49 +240,52 @@ html.ov #hint,html.ov #hud .hbtn.nav{display:none}
 <section class="ch0">
   <header><span class="kicker">The course</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Same jobs, <em>new owners</em></h2>
-    <p class="lead">Nothing you know becomes useless. Every job in your shadcn stack still exists —
-    it's just done by a different tool, usually at a different time (compile time instead of runtime).</p>
+    <h2>Same jobs, <em>two owners</em></h2>
+    <p class="lead">Both cover the entire styling surface. They just hand each job to a different
+    mechanism — and usually at a different moment: strings resolved by a scanner vs typed objects
+    resolved by a compiler.</p>
     <table>
-      <tr><th>the job</th><th class="cy">in shadcn land</th><th class="pk">in StyleX land</th></tr>
-      <tr><td>writing styles</td><td class="cy"><b>Tailwind</b> utility strings in <code>className</code></td><td class="pk"><b>typed objects</b> in <code>stylex.create()</code></td></tr>
+      <tr><th>the job</th><th class="cy">in tailwind land</th><th class="pk">in stylex land</th></tr>
+      <tr><td>writing styles</td><td class="cy"><b>utility strings</b> in <code>className</code></td><td class="pk"><b>typed objects</b> in <code>stylex.create()</code></td></tr>
       <tr><td>variants</td><td class="cy"><b>cva()</b> assembling class strings</td><td class="pk"><b>plain objects</b> — <code>variants[variant]</code></td></tr>
       <tr><td>combining styles</td><td class="cy"><b>cn()</b> = clsx + tailwind-merge</td><td class="pk"><b>argument order</b> in <code>stylex.props()</code></td></tr>
-      <tr><td>behavior &amp; a11y</td><td class="cy"><b>Radix</b> primitives</td><td class="pk"><b>React Aria Components</b></td></tr>
-      <tr><td>tokens &amp; theming</td><td class="cy"><b>@theme</b> CSS vars + <code>.dark</code> class</td><td class="pk"><b>defineVars()</b> + <code>createTheme()</code></td></tr>
-      <tr><td>getting components</td><td class="cy"><b>copied into your repo</b> (registry)</td><td class="pk"><b>imported</b> from a versioned package</td></tr>
-      <tr><td>type safety</td><td class="cy"><b>none</b> — classes are strings</td><td class="pk"><b>end-to-end</b>, down to allowed overrides</td></tr>
+      <tr><td>tokens</td><td class="cy"><b>@theme</b> — resolved by naming</td><td class="pk"><b>defineVars()</b> — resolved by import</td></tr>
+      <tr><td>dark mode</td><td class="cy"><b>dark:</b> variant + <code>.dark</code> class</td><td class="pk"><b>createTheme()</b> or media conditions in tokens</td></tr>
+      <tr><td>responsive</td><td class="cy"><b>sm: / lg:</b> prefixes</td><td class="pk"><b>'@media'</b> keys per property</td></tr>
+      <tr><td>type safety</td><td class="cy"><b>strings</b> (editor plugin assists)</td><td class="pk"><b>end-to-end</b>, down to allowed overrides</td></tr>
+      <tr><td>usual company</td><td class="cy"><b>Radix</b> — the shadcn stack</td><td class="pk"><b>React Aria</b> — design systems · that axis has <a href="https://dima-gusyatiner.github.io/radix-vs-react-aria/">its own deck</a></td></tr>
     </table>
   </div>
 </section>
 
-<!-- ================= 03 · six mental shifts ================= -->
+<!-- ================= 03 · the six splits ================= -->
 <section class="ch0">
   <header><span class="kicker">The course</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>The six <em>mental shifts</em></h2>
-    <p class="lead">This is the whole course in one slide. Each shift gets its own deep-dive in chapter 3.</p>
+    <h2>The six <em>splits</em></h2>
+    <p class="lead">Where the two genuinely diverge. Not a scoreboard — six design decisions,
+    each made deliberately, each with a real cost on the other side.</p>
     <div class="cols3">
-      <div class="card"><span class="cnum">01</span><h3>Strings → data</h3><p>Styles become typed values you can pass, inspect, lint, and refactor like any other code.</p></div>
-      <div class="card"><span class="cnum">02</span><h3>Cascade → call-site order</h3><p>No specificity, no tailwind-merge. The last style listed wins — per property, always.</p></div>
-      <div class="card"><span class="cnum">03</span><h3>Config → modules</h3><p>Design tokens are imports that travel the module graph, not naming conventions in a config file.</p></div>
+      <div class="card"><span class="cnum">01</span><h3>Strings ↔ typed data</h3><p>Styling as terse text living in the markup, or as values the type system can see, pass, and refactor.</p></div>
+      <div class="card"><span class="cnum">02</span><h3>Stylesheet ↔ call site</h3><p>When two rules touch one property, precedence is decided by the framework's stylesheet — or by argument order where you wrote it.</p></div>
+      <div class="card"><span class="cnum">03</span><h3>Naming ↔ imports</h3><p>Tokens reached by convention (<code>bg-brand-500</code>), or reached through the module graph (<code>color.brand500</code>).</p></div>
     </div>
     <div class="cols3" style="margin-top:20px">
-      <div class="card"><span class="cnum">04</span><h3>Open className → contracts</h3><p>Components decide what callers may restyle — a few properties, everything, or nothing at all.</p></div>
-      <div class="card"><span class="cnum">05</span><h3>Copy → consume</h3><p>From forking registry code into your repo to importing versioned components you help evolve.</p></div>
-      <div class="card"><span class="cnum">06</span><h3>Freedom → visible constraints</h3><p>One-offs don't disappear — they become explicit escape hatches that show up in review.</p></div>
+      <div class="card"><span class="cnum">04</span><h3>Open ↔ negotiated</h3><p><code>className</code> lets any caller restyle anything. StyleX lets a component type exactly what may be overridden.</p></div>
+      <div class="card"><span class="cnum">05</span><h3>Portability ↔ depth</h3><p>Works anywhere HTML is produced, or buys deep integration by living inside the JS/JSX toolchain.</p></div>
+      <div class="card"><span class="cnum">06</span><h3>Vocabulary ↔ CSS</h3><p>Learn a dictionary once and type less forever, or write CSS property names and learn nothing new.</p></div>
     </div>
-    <div class="foot">Roadmap: <b>ch 1</b> what you're leaving · <b>ch 2</b> how StyleX works · <b>ch 3</b> the shifts · <b>ch 4</b> cookbook · <b>ch 5</b> the rest of the stack · <b>ch 6</b> tradeoffs</div>
+    <div class="foot">Roadmap: <b>ch 1–2</b> meet each tool · <b>ch 3</b> the splits in depth · <b>ch 4</b> side-by-side translations · <b>ch 5</b> toolchain &amp; ecosystem · <b>ch 6</b> verdicts</div>
   </div>
 </section>
 
-<!-- ================= 04 · anatomy of shadcn ================= -->
+<!-- ================= 04 · tailwind in the wild ================= -->
 <section class="ch1">
-  <header><span class="kicker">Ch 1 · Where you're coming from</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 1 · Meet Tailwind</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Anatomy of a <em>shadcn component</em></h2>
+    <h2>Tailwind in the wild: <em>the shadcn stack</em></h2>
     <div class="cols w64" style="margin-top:6px">
-      <div class="code tw"><header><span class="fname">button.tsx · from the registry</span></header><pre class="sm" data-lang="ts">const buttonVariants = cva(
+      <div class="code tw"><header><span class="fname">button.tsx · the shape most codebases have</span></header><pre class="sm" data-lang="ts">const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm " +
     "font-medium transition-colors focus-visible:ring-2 disabled:opacity-50",
   {
@@ -285,13 +309,16 @@ function Button({ className, variant, size, asChild = false, ...props }) {
   );
 }</pre></div>
       <div>
-        <ul class="pts">
+        <p class="lead" style="font-size:15.5px;margin-bottom:14px">Tailwind rarely arrives alone. Four libraries
+        share the work in the stack most people actually meet it in:</p>
+        <ul class="pts tight">
           <li><b>Tailwind</b> — the vocabulary and the compiler behind it</li>
           <li><b>cva</b> — assembles variant class strings</li>
           <li><b>clsx + tailwind-merge</b> — <code>cn()</code>: compose strings, then delete the conflicts</li>
-          <li><b>Radix</b> — behavior, focus, a11y; <code>asChild</code>/<code>Slot</code> for composition</li>
+          <li><b>Radix / Base UI</b> — behavior, focus, a11y; <code>asChild</code> for composition</li>
         </ul>
-        <div class="foot" style="margin-top:26px">None of these four survive the move.<br>Every <b>job</b> they do still exists on the other side.</div>
+        <div class="foot" style="margin-top:20px">Only the first three are the <b>styling</b> half — that's this deck.<br>
+        The behavior half is a separate axis with <a href="https://dima-gusyatiner.github.io/radix-vs-react-aria/">its own deck</a>.</div>
       </div>
     </div>
   </div>
@@ -299,17 +326,18 @@ function Button({ className, variant, size, asChild = false, ...props }) {
 
 <!-- ================= 05 · what tailwind actually is ================= -->
 <section class="ch1">
-  <header><span class="kicker">Ch 1 · Where you're coming from</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 1 · Meet Tailwind</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>What Tailwind <em>actually is</em></h2>
-    <p class="lead">Understanding your current tool precisely makes the new one obvious.</p>
+    <p class="lead">Worth stating precisely, because the popular description ("inline styles with extra steps")
+    is wrong, and the accurate one explains both tools at once.</p>
     <div class="cols">
       <ul class="pts">
-        <li>It's <b>already a compiler</b>: it scans source files for known class names and emits only those rules.</li>
-        <li>One class ≈ one declaration. <code>p-4</code> <b>is</b> <code>padding: 1rem</code>. You've been writing <b>atomic CSS by hand</b>.</li>
-        <li>Order in your class string <b>means nothing</b> — precedence belongs to the stylesheet, fixed by the framework. <code>"p-2 p-4"</code> is not a choice you made.</li>
-        <li>That's why <b>tailwind-merge</b> exists: a runtime re-encoding of Tailwind's whole taxonomy, just to delete conflicts.</li>
-        <li>v4 made config CSS-first: <code>@theme</code> → CSS custom properties.</li>
+        <li>It's <b>a compiler</b>: it scans source files for known class names and emits only those rules.</li>
+        <li>One class ≈ one declaration. <code>p-4</code> <b>is</b> <code>padding: 1rem</code>. The output is <b>atomic CSS</b>.</li>
+        <li>Order inside the class string <b>means nothing</b> — precedence lives in the stylesheet, fixed by the framework.</li>
+        <li>Hence <b>tailwind-merge</b>: a runtime re-encoding of the taxonomy, purely to resolve conflicts.</li>
+        <li>v4 moved config into CSS (<code>@theme</code> → custom properties) and shipped a much faster engine.</li>
       </ul>
       <div class="stack">
         <div class="code tw"><header><span class="fname">what you typed</span></header><pre data-lang="html">&lt;div class="p-4 text-sm font-medium"&gt;</pre></div>
@@ -318,13 +346,13 @@ function Button({ className, variant, size, asChild = false, ...props }) {
 .font-medium { font-weight: 500; }</pre></div>
       </div>
     </div>
-    <div class="foot">Hold that thought: <b>atomic, compiled, constrained</b>. You already bought the model — what changes is the authoring format.</div>
+    <div class="foot"><b>Atomic, compiled, constrained.</b> All three words also describe StyleX's output — which is exactly why the interesting differences are all in the <b>authoring model</b>, not the CSS.</div>
   </div>
 </section>
 
 <!-- ================= 06 · what stylex is ================= -->
 <section class="ch2">
-  <header><span class="kicker">Ch 2 · How StyleX works</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 2 · Meet StyleX</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>What <em>StyleX</em> is</h2>
     <div class="cols" style="margin-top:8px">
@@ -346,13 +374,13 @@ function Button({ className, variant, size, asChild = false, ...props }) {
   </div>
 </section>
 
-<!-- ================= 07 · hello stylex ================= -->
+<!-- ================= 07 · the same pill twice ================= -->
 <section class="ch2">
-  <header><span class="kicker">Ch 2 · How StyleX works</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 2 · Meet StyleX</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Hello, <em>StyleX</em></h2>
+    <h2>The same pill, <em>twice</em></h2>
     <div class="cols" style="margin-top:6px">
-      <div class="code tw"><header><span class="fname">before · tailwind</span></header><pre data-lang="ts">export function Pill({ children }) {
+      <div class="code tw"><header><span class="fname">tailwind</span></header><pre data-lang="ts">export function Pill({ children }) {
   return (
     &lt;span className="inline-flex items-center gap-1
       rounded-full bg-sky-100 px-3 py-1
@@ -361,7 +389,7 @@ function Button({ className, variant, size, asChild = false, ...props }) {
     &lt;/span&gt;
   );
 }</pre></div>
-      <div class="code sx"><header><span class="fname">after · stylex</span></header><pre data-lang="ts">import * as stylex from '@stylexjs/stylex';
+      <div class="code sx"><header><span class="fname">stylex</span></header><pre data-lang="ts">import * as stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
   pill: {
@@ -376,13 +404,13 @@ export function Pill({ children }) {
   return &lt;span {...stylex.props(styles.pill)}&gt;{children}&lt;/span&gt;;
 }</pre></div>
     </div>
-    <div class="foot"><b>Three things to notice:</b> plain numbers become <code>px</code> (unitless props like <code>lineHeight</code>, <code>opacity</code>, <code>fontWeight</code> stay unitless) · camelCase, but standard CSS names — no dictionary · <code>stylex.props()</code> returns <code>{ className, style }</code> and you spread it.</div>
+    <div class="foot"><b>The trade in one screen:</b> one is dramatically shorter and needs no import; the other names every property in full, and every one of those names is checked. Same rendered pill, same atomic CSS underneath.</div>
   </div>
 </section>
 
 <!-- ================= 08 · the compiler ================= -->
 <section class="ch2">
-  <header><span class="kicker">Ch 2 · How StyleX works</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 2 · Meet StyleX</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>What the <em>compiler</em> does</h2>
     <div class="cols" style="margin-top:6px">
@@ -415,15 +443,15 @@ export function Pill({ children }) {
 
 <!-- ================= 09 · atomic math ================= -->
 <section class="ch2">
-  <header><span class="kicker">Ch 2 · How StyleX works</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 2 · Meet StyleX</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Atomic CSS: <em>the math you already bought</em></h2>
+    <h2>Atomic CSS: <em>the shared premise</em></h2>
     <div class="cols w46" style="margin-top:8px">
       <ul class="pts">
-        <li>Every unique declaration is emitted <b>once, ever</b>. Ten components using <code>display: flex</code> share one rule.</li>
-        <li>CSS grows with your <b>vocabulary</b> (≈ logarithmic), not your component count (linear).</li>
-        <li>This curve is how Meta ships one small static stylesheet for all of facebook.com.</li>
-        <li>Tailwind users already live on this curve. StyleX keeps the curve — <b>and deletes the dictionary</b>.</li>
+        <li>Both tools emit each unique declaration <b>once, ever</b>. Ten components using <code>display: flex</code> share one rule.</li>
+        <li>CSS grows with the <b>vocabulary</b> (≈ logarithmic), not with component count (linear).</li>
+        <li>Tailwind reaches it with a fixed dictionary you learn; StyleX generates it from what you wrote.</li>
+        <li>This is the agreement. Everything else in this deck sits <b>above</b> the line — in how you author.</li>
       </ul>
       <div class="chart">
         <svg viewBox="0 0 560 252" width="100%" aria-label="CSS size vs app size: naive CSS grows linearly, Tailwind and StyleX flatten out">
@@ -442,13 +470,13 @@ export function Pill({ children }) {
         </svg>
       </div>
     </div>
-    <div class="foot">The plot twist of this course: <b>you're not switching paradigms — you're switching notations</b> for the same paradigm.</div>
+    <div class="foot">Two tools, one output model, opposite authoring philosophies. That's the whole comparison in a sentence.</div>
   </div>
 </section>
 
 <!-- ================= 10 · interactive merge demo ================= -->
 <section class="ch2">
-  <header><span class="kicker">Ch 2 · How StyleX works</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 2 · Meet StyleX</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>Last style wins — <em>live</em></h2>
     <p class="lead">A toy reimplementation of the merge model (~25 lines — it's in this file's source). Toggle styles, watch declarations fight.</p>
@@ -481,171 +509,201 @@ export function Pill({ children }) {
   </div>
 </section>
 
-<!-- ================= 11 · shift 1: strings → data ================= -->
+<!-- ================= 11 · split ================= -->
 <section class="ch3">
-  <header><span class="kicker">Ch 3 · Shift 1 of 6</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 3 · Split 1 of 6</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Class strings → <em>typed data</em></h2>
-    <div class="cols">
-      <ul class="pts">
-        <li><b>Autocomplete on every property and value</b> — it's just TypeScript.</li>
-        <li>Find-all-references and rename-symbol work on styles and tokens.</li>
-        <li><code>stylex/no-unused</code> flags dead styles; deleting a component deletes its CSS.</li>
-        <li>Styles are <b>values</b>: pass them as props, export them, map over them, test them.</li>
-        <li>The vocabulary is CSS itself — your knowledge transfers in <b>and</b> out.</li>
-      </ul>
-      <div class="stack">
-        <div class="code tw"><header><span class="fname">tailwind · a typo is silence</span></header><pre data-lang="ts">&lt;div className="felx items-center" /&gt;
-// renders fine. ships fine. just… isn't flex.</pre></div>
-        <div class="code sx"><header><span class="fname">stylex · a typo is a build error</span></header><pre data-lang="ts">const styles = stylex.create({
-  row: { dsplay: 'flex' },
-  //     ~~~~~~ TS error + stylex/valid-styles:
-  //     unknown property 'dsplay'
-});</pre></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= 12 · shift 2: cascade → order ================= -->
-<section class="ch3">
-  <header><span class="kicker">Ch 3 · Shift 2 of 6</span><span class="snum"></span></header>
-  <div class="sbody">
-    <h2>The cascade → <em>call-site order</em></h2>
-    <div class="cols" style="margin-top:6px">
-      <div class="code tw"><header><span class="fname">tailwind</span></header><pre data-lang="ts">&lt;div className={cn("p-2 text-sm", isCard &amp;&amp; "p-4")} /&gt;
-
-// who wins? whatever tailwind-merge decides —
-// p-4, because the library deletes p-2 for you.
-// without cn(): the stylesheet's order decides.
-// either way: not your call site.</pre></div>
-      <div class="code sx"><header><span class="fname">stylex</span></header><pre data-lang="ts">&lt;div {...stylex.props(styles.base, isCard &amp;&amp; styles.card)} /&gt;
-
-// styles.card wins — it's listed later.
-// that's the entire rule.
-// falsy values are skipped, so conditionals
-// are plain &amp;&amp; and ternaries.</pre></div>
-    </div>
-    <ul class="pts" style="margin-top:18px">
-      <li>No specificity scores, no <code>!important</code>, no source-order archaeology — <b>deterministic, per property</b>.</li>
-      <li>Possible because the compiler knows exactly which property each atomic class controls.</li>
-      <li>Retire the muscle memory: <code>cn()</code>, <code>clsx</code>, <code>tailwind-merge</code> have no equivalent because <b>the problem is gone</b>.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ================= 13 · shift 3: config → modules ================= -->
-<section class="ch3">
-  <header><span class="kicker">Ch 3 · Shift 3 of 6</span><span class="snum"></span></header>
-  <div class="sbody">
-    <h2>Theme config → <em>token modules</em></h2>
-    <div class="cols" style="margin-top:6px">
-      <div class="code tw"><header><span class="fname">tailwind v4 · css-first config</span></header><pre data-lang="css">@import "tailwindcss";
-
-@theme {
-  --color-brand-500: oklch(0.62 0.21 260);
-  --spacing-18: 4.5rem;
-}
-
-/* usage: class="bg-brand-500 p-18"
-   — resolved by naming convention */</pre></div>
-      <div class="code sx"><header><span class="fname">tokens.stylex.ts · the suffix is a compiler contract</span></header><pre data-lang="ts">import * as stylex from '@stylexjs/stylex';
-
-export const color = stylex.defineVars({
-  brand500: 'oklch(0.62 0.21 260)',
-  // newer stylex: "derived" tokens compile to
-  // var() chains, so theme overrides cascade
-});
-
-// elsewhere — a typed import, not a convention:
-import { color } from './tokens.stylex';
-//   backgroundColor: color.brand500</pre></div>
-    </div>
-    <div class="foot">Tokens travel the <b>module graph</b>: rename them, deprecate them, count their references — like any code. The compiled output is still a real CSS custom property on <code>:root</code>.</div>
-  </div>
-</section>
-
-<!-- ================= 14 · shift 4: contracts ================= -->
-<section class="ch3">
-  <header><span class="kicker">Ch 3 · Shift 4 of 6</span><span class="snum"></span></header>
-  <div class="sbody">
-    <h2>Open className → <em>styling contracts</em></h2>
-    <div class="cols w64" style="margin-top:6px">
-      <div class="code sx"><header><span class="fname">three postures a component can take</span></header><pre class="sm" data-lang="ts">// 1 · open — the caller may restyle anything
-type Open = { style?: stylex.StyleXStyles };
-
-// 2 · scoped — only these properties may change
-type Scoped = {
-  style?: stylex.StyleXStyles&lt;{ color?: string; marginTop?: number }&gt;;
-};
-&lt;Text style={styles.brand} /&gt;   // ✅ recolors text
-&lt;Text style={styles.padded} /&gt;  // ❌ type error: padding isn't in the contract
-
-// 3 · closed — the design system decides, full stop
-type Closed = Omit&lt;ComponentProps&lt;'button'&gt;, 'className' | 'style'&gt;;</pre></div>
-      <ul class="pts tight">
-        <li><code>className?: string</code> was an <b>unbounded API</b> — every consumer style silently forked your design decisions.</li>
-        <li>StyleX turns restyling into a <b>typed negotiation</b>.</li>
-        <li>Design systems typically ship <b>closed or scoped</b> components, with tokens &amp; themes as the sanctioned customization path.</li>
-        <li><code>Omit&lt;…, 'className' | 'style'&gt;</code> feels harsh for a week. Then it feels like a seatbelt.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ================= 15 · shift 5: copy → consume ================= -->
-<section class="ch3">
-  <header><span class="kicker">Ch 3 · Shift 5 of 6</span><span class="snum"></span></header>
-  <div class="sbody">
-    <h2>Copy the code → <em>consume the package</em></h2>
-    <div class="cols" style="margin-top:8px">
-      <div class="card" style="padding:22px 24px">
-        <span class="badge cy">shadcn's bet</span>
-        <h3 style="margin-top:12px">The code lives in your repo</h3>
-        <p style="font-size:15px">Infinite freedom, zero upgrade path — every edit is a fork you now maintain. A brilliant trade for a product that wants a head start and full ownership.</p>
-      </div>
-      <div class="card" style="padding:22px 24px">
-        <span class="badge pk">design system's bet</span>
-        <h3 style="margin-top:12px">Components are versioned dependencies</h3>
-        <p style="font-size:15px">You file issues, contribute upstream, and upgrade via changelog. Consistency across a fleet of apps and teams <b>is</b> the feature.</p>
-      </div>
-    </div>
-    <ul class="pts" style="margin-top:20px">
-      <li>Day to day: you read <b>Storybook and docs</b> instead of source you own.</li>
-      <li>Extension points are <b>props, tokens, themes</b> — not editing the JSX.</li>
-      <li>“I'll just tweak it” becomes a small upstream PR. Slower once; faster every time after.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ================= 16 · shift 6: constraints ================= -->
-<section class="ch3">
-  <header><span class="kicker">Ch 3 · Shift 6 of 6</span><span class="snum"></span></header>
-  <div class="sbody">
-    <h2>One-off freedom → <em>visible constraints</em></h2>
-    <div class="cols">
-      <ul class="pts">
-        <li>No string class names, no runtime style injection, no descendant selectors — everything must be <b>statically analyzable</b>.</li>
-        <li>Arbitrary values need no brackets: <b>any CSS value is legal</b>. What's constrained is where styles come from, not what they say.</li>
-        <li>Tokens become the pit of success — they're the thing that <b>autocompletes</b>.</li>
-        <li>You still have one-offs. They're just <b>explicit</b>, so review can see them.</li>
-      </ul>
-      <div class="card" style="padding:20px 24px">
-        <h3 style="margin-bottom:14px">The escape-hatch ladder</h3>
-        <ul class="pts tight">
-          <li><b>1 · dynamic style function</b> — runtime numbers become CSS vars (progress %, cursor positions)</li>
-          <li><b>2 · local <code>stylex.create</code> in app code</b> — one-offs are normal: colocated, typed, deletable</li>
-          <li><b>3 · a plain .css file</b> — resets, third-party widgets, markdown you don't render yourself</li>
+    <h2>Strings ↔ <em>typed data</em></h2>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Tailwind</span>
+        <h3>Styling you can read in the markup</h3>
+        <ul class="pts">
+          <li>The whole look of an element fits on one line, <b>next to the element</b>.</li>
+          <li>No import, no naming ceremony — and naming things is the expensive part of CSS.</li>
+          <li>The editor plugin gives completion and hover-previews of the real CSS.</li>
+          <li>Class strings are <b>greppable from any language</b>, including templates.</li>
         </ul>
-        <p style="margin-top:14px" class="xdim">All three are grep-able. That's the point.</p>
+        <div class="cost"><b>Costs:</b> the compiler cannot see <code>"felx"</code> — a typo renders fine and ships fine. Strings do not participate in rename-refactors, and class names built at runtime break scanning entirely.</div>
+      </div>
+      <div class="card sx">
+        <span class="lbl">StyleX</span>
+        <h3>Styling the type system can see</h3>
+        <ul class="pts">
+          <li>Properties and values are checked: a typo is a <b>build error</b>, not a silent no-op.</li>
+          <li>Rename-symbol, find-all-references, and unused-style lint all work.</li>
+          <li>Styles are <b>values</b> — pass them as props, export them, map over them.</li>
+          <li>Deleting a component provably deletes its CSS.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> verbosity. An import plus a <code>create()</code> block before you style anything, and the styles now sit away from the markup you are reading.</div>
       </div>
     </div>
+    <div class="foot">Both are compiled and both are constrained. The question is whether you want the constraint enforced by <b>a dictionary of names</b> or by <b>a type checker</b>.</div>
+  </div>
+</section>
+
+<!-- ================= 12 · split ================= -->
+<section class="ch3">
+  <header><span class="kicker">Ch 3 · Split 2 of 6</span><span class="snum"></span></header>
+  <div class="sbody">
+    <h2>Stylesheet order ↔ <em>call-site order</em></h2>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Tailwind</span>
+        <h3>Precedence is global, and not your problem</h3>
+        <ul class="pts">
+          <li>You never reason about specificity — the framework fixed the order for you.</li>
+          <li>Two utilities on one element resolve identically in every file, forever.</li>
+          <li>Great for a team: nobody can invent a novel precedence scheme.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> when class strings <b>merge</b> — a base plus a caller override — the fix is <code>tailwind-merge</code>: a runtime library that re-encodes the whole taxonomy to delete conflicts. Real bundle and CPU cost, and it must track every new utility.</div>
+      </div>
+      <div class="card sx">
+        <span class="lbl">StyleX</span>
+        <h3>Precedence is local, and explicit</h3>
+        <ul class="pts">
+          <li><code>stylex.props(a, b)</code> — <b>b wins, per property</b>. That is the entire rule.</li>
+          <li>No specificity, no <code>!important</code>, no merge library in the bundle.</li>
+          <li>A component decides once, in readable source, whether callers can override it.</li>
+          <li>Falsy arguments are skipped, so conditionals are plain <code>&amp;&amp;</code>.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> only StyleX styles participate. A raw <code>className</code> arriving from outside does not merge — it just lands beside yours, back in cascade-land.</div>
+      </div>
+    </div>
+    <div class="foot">Same problem — “who wins?” — answered at opposite ends: <b>a stylesheet you never see</b> vs <b>the argument list you just typed</b>.</div>
+  </div>
+</section>
+
+<!-- ================= 13 · split ================= -->
+<section class="ch3">
+  <header><span class="kicker">Ch 3 · Split 3 of 6</span><span class="snum"></span></header>
+  <div class="sbody">
+    <h2>Tokens by naming ↔ <em>tokens by import</em></h2>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Tailwind</span>
+        <h3>@theme in CSS, reachable from anywhere</h3>
+        <ul class="pts">
+          <li>Tokens live in a stylesheet, so <b>any</b> file type can use them — templates, emails, CMS content.</li>
+          <li>Designers and non-JS engineers can read and edit the source of truth.</li>
+          <li>v4 compiles <code>@theme</code> straight to CSS custom properties.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> resolution is by convention. Nothing catches a token that no longer exists beyond the class silently not applying, and renaming one is a find-and-replace across strings in every language in the repo.</div>
+      </div>
+      <div class="card sx">
+        <span class="lbl">StyleX</span>
+        <h3>defineVars() in the module graph</h3>
+        <ul class="pts">
+          <li>Tokens are <b>typed imports</b>: rename them, deprecate them, count their references.</li>
+          <li>Derived tokens compile to real <code>var()</code> chains, so a theme override cascades through the graph.</li>
+          <li>Unused tokens and bad references surface at build time.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> reachable only from JS/TS modules, and <code>*.stylex.ts</code> files are a compiler contract — they may export nothing but token groups.</div>
+      </div>
+    </div>
+    <div class="foot">The compiled output is nearly identical: custom properties on <code>:root</code>. What differs is whether your <b>tooling</b> understands the token graph.</div>
+  </div>
+</section>
+
+<!-- ================= 14 · split ================= -->
+<section class="ch3">
+  <header><span class="kicker">Ch 3 · Split 4 of 6</span><span class="snum"></span></header>
+  <div class="sbody">
+    <h2>Open className ↔ <em>negotiated contracts</em></h2>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Tailwind</span>
+        <h3>Anyone can restyle anything</h3>
+        <ul class="pts">
+          <li>The fastest escape hatch in existence: add a class, ship the fix.</li>
+          <li>No API design meeting to add one margin at one call site.</li>
+          <li>It is precisely why the copy-and-own component model works so well.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> <code>className?: string</code> is an <b>unbounded API</b>. Every consumer override silently forks a design decision, nothing records that it happened, and you cannot change the component later without breaking overrides you never knew about.</div>
+      </div>
+      <div class="card sx">
+        <span class="lbl">StyleX</span>
+        <h3>The component types what may change</h3>
+        <ul class="pts">
+          <li><b>Open:</b> <code>style?: StyleXStyles</code> — anything goes.</li>
+          <li><b>Scoped:</b> <code>StyleXStyles&lt;{ color?: string }&gt;</code> — only these properties.</li>
+          <li><b>Closed:</b> <code>Omit&lt;…, 'className' | 'style'&gt;</code> — the system decides.</li>
+          <li>Overrides become a <b>typed negotiation</b>, visible in review.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> rigidity. The legitimate one-off now needs an upstream change or a fork, and someone has to design the contract before anyone can use it.</div>
+      </div>
+    </div>
+    <div class="foot">Design systems tend to want the contract; product teams under deadline tend to want the hatch. Most codebases need <b>both</b>, at different layers.</div>
+  </div>
+</section>
+
+<!-- ================= 15 · split ================= -->
+<section class="ch3">
+  <header><span class="kicker">Ch 3 · Split 5 of 6</span><span class="snum"></span></header>
+  <div class="sbody">
+    <h2>Portability ↔ <em>integration depth</em></h2>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Tailwind</span>
+        <h3>Works anywhere HTML is produced</h3>
+        <ul class="pts">
+          <li>Rails, Django, Laravel, Go templates, PHP, Astro, Svelte, Vue, plain <code>.html</code>.</li>
+          <li>Class names are just strings — <b>any language can emit them</b>.</li>
+          <li>A CDN script tag styles a page with no build step at all.</li>
+          <li>Rewrite React → Svelte and the markup keeps its styling.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> the flip side of strings is everything in split 1 — no type checking, and tooling that can only guess at your intent.</div>
+      </div>
+      <div class="card sx">
+        <span class="lbl">StyleX</span>
+        <h3>Lives inside the JS module graph</h3>
+        <ul class="pts">
+          <li>A Babel/bundler step is <b>required</b>, and styles must be statically analyzable.</li>
+          <li>In exchange the compiler can do things a scanner cannot: typed override contracts, token graphs, per-property merging, provable dead-style elimination.</li>
+          <li>Tokens, themes, and styles are ordinary module exports.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> if part of your app renders HTML from a language that is not JavaScript, StyleX simply cannot style it. Server-rendered JS frameworks are fine; Rails views are not.</div>
+      </div>
+    </div>
+    <div class="foot">The least negotiable split on this list. It is a <b>hard architectural fact</b> about your stack, not a preference — check it first.</div>
+  </div>
+</section>
+
+<!-- ================= 16 · split ================= -->
+<section class="ch3">
+  <header><span class="kicker">Ch 3 · Split 6 of 6</span><span class="snum"></span></header>
+  <div class="sbody">
+    <h2>A vocabulary ↔ <em>plain CSS</em></h2>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Tailwind</span>
+        <h3>Learn a dictionary, type far less</h3>
+        <ul class="pts">
+          <li><code>p-4 flex gap-2</code> beats fourteen words of object literal, every time.</li>
+          <li>The default scale is a <b>constraint</b>: spacing and color come from the theme unless you fight it.</li>
+          <li>Arbitrary values need brackets — <code>w-[137px]</code> — so one-offs look like one-offs.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> you must learn and retain the mapping; CSS knowledge does not transfer one-to-one, rarer properties fall back to bracket syntax, and a CSS-fluent new hire is still a beginner on day one.</div>
+      </div>
+      <div class="card sx">
+        <span class="lbl">StyleX</span>
+        <h3>It is just CSS, in camelCase</h3>
+        <ul class="pts">
+          <li>Nothing new to learn: <code>paddingInline</code>, <code>gridTemplateColumns</code>, <code>@media</code>.</li>
+          <li>Knowledge transfers <b>both directions</b> — into the codebase and back out.</li>
+          <li>Any CSS value is legal; no escape syntax for <code>width: 137</code>.</li>
+          <li>Escape hatches stay explicit: dynamic styles, local <code>create()</code>, or a plain CSS file.</li>
+        </ul>
+        <div class="cost"><b>Costs:</b> no constraint comes for free — nothing stops <code>padding: 13</code>. Tokens are the pit of success only if the team actually defines them. And static analysis forbids descendant selectors, runtime string styles, and <code>!important</code>.</div>
+      </div>
+    </div>
+    <div class="foot">Tailwind constrains by <b>making the right thing shortest</b>. StyleX constrains by <b>making everything typed</b>, then trusting your tokens. Different theories of how humans behave under deadline.</div>
   </div>
 </section>
 
 <!-- ================= 17 · cookbook: layout ================= -->
 <section class="ch4">
-  <header><span class="kicker">Ch 4 · Cookbook</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 4 · Side by side</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>Layout &amp; <em>spacing</em></h2>
     <div class="cols" style="margin-top:6px">
@@ -675,9 +733,9 @@ type Closed = Omit&lt;ComponentProps&lt;'button'&gt;, 'className' | 'style'&gt;;
 
 <!-- ================= 18 · cookbook: states ================= -->
 <section class="ch4">
-  <header><span class="kicker">Ch 4 · Cookbook</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 4 · Side by side</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>States: <em>two idioms</em></h2>
+    <h2>States: <em>variants vs conditions</em></h2>
     <div class="cols" style="margin-top:6px">
       <div class="stack">
         <div class="code tw"><header><span class="fname">tailwind</span></header><pre data-lang="html">&lt;a class="text-zinc-400 transition-colors
@@ -714,9 +772,9 @@ type Closed = Omit&lt;ComponentProps&lt;'button'&gt;, 'className' | 'style'&gt;;
 
 <!-- ================= 19 · cookbook: responsive ================= -->
 <section class="ch4">
-  <header><span class="kicker">Ch 4 · Cookbook</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 4 · Side by side</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2><em>Responsive</em> without prefixes</h2>
+    <h2>Responsive: <em>prefixes vs media keys</em></h2>
     <div class="cols" style="margin-top:6px">
       <div>
         <div class="code tw"><header><span class="fname">tailwind</span></header><pre data-lang="html">&lt;div class="grid grid-cols-1 gap-4
@@ -751,7 +809,7 @@ const styles = stylex.create({
 
 <!-- ================= 20 · cookbook: dark mode & themes ================= -->
 <section class="ch4">
-  <header><span class="kicker">Ch 4 · Cookbook</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 4 · Side by side</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>Dark mode &amp; <em>themes as values</em></h2>
     <div class="cols" style="margin-top:6px">
@@ -783,9 +841,9 @@ export const dark = stylex.createTheme(sem, {
 
 <!-- ================= 21 · cookbook: variants ================= -->
 <section class="ch4">
-  <header><span class="kicker">Ch 4 · Cookbook</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 4 · Side by side</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Variants: <em>cva was an object lookup</em></h2>
+    <h2>Variants: <em>a table lookup, either way</em></h2>
     <div class="cols" style="margin-top:4px">
       <div class="code sx"><header><span class="fname">button.tsx · the style tables</span></header><pre class="sm" data-lang="ts">// (a `base` create() with shared flex/radius styles is elided)
 
@@ -821,7 +879,7 @@ export function Button(
     {...stylex.props(base.root, variants[variant], sizes[size])} /&gt;;
 }</pre></div>
         <ul class="pts tight" style="margin-top:14px">
-          <li>cva's whole job is now <code>variants[variant]</code>; <code>defaultVariants</code> → default parameters.</li>
+          <li>Both are lookup tables. cva returns a class string; StyleX returns a style object — <code>variants[variant]</code>.</li>
           <li><code>compoundVariants</code> → plain booleans:<br><code>variant === 'outline' &amp;&amp; size === 'md' &amp;&amp; styles.tweak</code></li>
           <li><code>keyof typeof</code> keeps props and styles in lockstep — add a variant, the union updates itself.</li>
           <li>No config DSL. It's data and functions all the way down.</li>
@@ -833,7 +891,7 @@ export function Button(
 
 <!-- ================= 22 · cookbook: composition ================= -->
 <section class="ch4">
-  <header><span class="kicker">Ch 4 · Cookbook</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 4 · Side by side</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>Styles across <em>component boundaries</em></h2>
     <div class="cols w64" style="margin-top:6px">
@@ -865,7 +923,7 @@ export function Card({ children, style }: Props) {
 
 <!-- ================= 23 · cookbook: pseudo/animation/dynamic ================= -->
 <section class="ch4">
-  <header><span class="kicker">Ch 4 · Cookbook</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 4 · Side by side</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>Pseudo-elements, animation, <em>runtime values</em></h2>
     <div class="cols w64" style="margin-top:6px">
@@ -899,166 +957,244 @@ const styles = stylex.create({
   </div>
 </section>
 
-<!-- ================= 24 · radix ↔ react aria ================= -->
+<!-- ================= 24 · pairing with a behavior layer ================= -->
 <section class="ch5">
-  <header><span class="kicker">Ch 5 · The rest of the stack</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 5 · Toolchain &amp; ecosystem</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Behavior layer: <em>Radix → React Aria</em></h2>
-    <table style="margin-top:4px">
-      <tr><th>the job</th><th class="cy">radix (shadcn)</th><th class="pk">react aria components</th></tr>
-      <tr><td>dialog</td><td class="cy"><code>Dialog.Root / Trigger / Content</code></td><td class="pk"><code>DialogTrigger / Modal / Dialog</code></td></tr>
-      <tr><td>menu</td><td class="cy"><code>DropdownMenu.*</code></td><td class="pk"><code>MenuTrigger / Menu / MenuItem</code></td></tr>
-      <tr><td>styling states</td><td class="cy"><code>data-[state=open]:…</code> selectors</td><td class="pk">render-prop booleans (+ data-attrs like <code>data-hovered</code>)</td></tr>
-      <tr><td>composition</td><td class="cy"><code>asChild</code> + <code>Slot</code></td><td class="pk">render props; <code>className</code>/<code>style</code> accept functions of state</td></tr>
+    <h2>Pairing with a <em>behavior layer</em></h2>
+    <p class="lead">Neither tool gives you a focus trap, a typeahead menu, or a screen-reader-correct dialog.
+    Styling and behavior are <b>orthogonal axes</b> — and every combination below is a real, working stack.</p>
+    <table style="margin-top:2px">
+      <tr><th>styling</th><th>behavior</th><th>what that stack is called in the wild</th></tr>
+      <tr><td class="cy"><b>Tailwind</b></td><td>Radix</td><td>the classic <b>shadcn/ui</b> stack — millions of copy-pasted components</td></tr>
+      <tr><td class="cy"><b>Tailwind</b></td><td>Base UI</td><td>shadcn/ui's <b>default for new projects since July 2026</b>; Radix stays supported</td></tr>
+      <tr><td class="cy"><b>Tailwind</b></td><td>React Aria</td><td>supported by an official plugin that maps RAC state to variants</td></tr>
+      <tr><td class="pk"><b>StyleX</b></td><td>React Aria</td><td>the typical typed-design-system build</td></tr>
+      <tr><td class="pk"><b>StyleX</b></td><td>Radix / Base UI</td><td>works fine — style the parts, read state off data attributes</td></tr>
     </table>
-    <div class="code sx" style="margin-top:16px"><header><span class="fname">the marriage: rac state → stylex arguments</span></header><pre data-lang="ts">&lt;Checkbox className={(s) =&gt;
-  stylex.props(styles.box, s.isSelected &amp;&amp; styles.checked).className ?? ''
-} /&gt;</pre></div>
-    <div class="foot">StyleX has no attribute-selector conditions — and with RAC you won't miss them: <b>state arrives as data, and data pairs perfectly with style arguments</b>. Years of Adobe's react-aria research back every component's focus and screen-reader behavior.</div>
-  </div>
-</section>
-
-<!-- ================= 25 · the repo ================= -->
-<section class="ch5">
-  <header><span class="kicker">Ch 5 · The rest of the stack</span><span class="snum"></span></header>
-  <div class="sbody">
-    <h2>The repo <em>you'll live in</em></h2>
-    <div class="cols w64" style="margin-top:6px">
-      <div class="code"><header><span class="fname">a typical design-system monorepo</span></header><pre data-lang="bash">design-system/
-├─ packages/
-│  ├─ tokens/                  # the only place raw values live
-│  │   ├─ color.stylex.ts      #   defineVars — themable
-│  │   └─ breakpoints.stylex.ts#   defineConsts — inlined
-│  ├─ components/              # react-aria-components + stylex
-│  └─ icons/
-├─ fixtures/                   # real consumer apps (Vite, Next.js)
-├─ apps/storybook/             # the workshop is the spec
-└─ pnpm-workspace.yaml         # + changesets, husky, CI</pre></div>
-      <ul class="pts">
-        <li><b>Storybook is the contract</b> — stories double as visual spec and, via test addons, as tests.</li>
-        <li><code>fixtures/</code> are real apps proving both distributions: precompiled CSS <b>and</b> source that consumers compile themselves.</li>
-        <li>Tokens are a <b>versioned package</b>: design changes ship as semver with changelogs.</li>
-        <li>pnpm workspaces: expect <code>workspace:*</code> deps and <code>pnpm --filter</code> scripts.</li>
-      </ul>
+    <div class="cols" style="margin-top:18px">
+      <div class="code tw"><header><span class="fname">tailwind reads state from data attributes</span></header><pre data-lang="html">&lt;div class="data-[hovered]:bg-sky-100
+            data-[state=open]:rotate-180"&gt;</pre></div>
+      <div class="code sx"><header><span class="fname">stylex reads state from render props</span></header><pre data-lang="ts">&lt;Button className={({ isHovered }) =&gt;
+  stylex.props(s.base, isHovered &amp;&amp; s.hovered).className ?? ''
+}&gt;</pre></div>
     </div>
+    <div class="foot">Choosing the behavior layer is a whole separate decision — it has <a href="https://dima-gusyatiner.github.io/radix-vs-react-aria/">its own deck in this series</a>.</div>
   </div>
 </section>
 
-<!-- ================= 26 · wiring & DX ================= -->
+<!-- ================= 25 · adoption & pedigree ================= -->
 <section class="ch5">
-  <header><span class="kicker">Ch 5 · The rest of the stack</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 5 · Toolchain &amp; ecosystem</span><span class="snum"></span></header>
+  <div class="sbody">
+    <h2>Adoption &amp; <em>pedigree</em></h2>
+    <p class="lead">The least technical slide here, and often the most decisive one.</p>
+    <div class="cols" style="margin-top:2px">
+      <div class="card tw">
+        <span class="lbl">Tailwind CSS · v4.3 (May 2026)</span>
+        <h3>The default answer</h3>
+        <ul class="pts">
+          <li>By Tailwind Labs; a decade old, <b>1.0 long since passed</b>, shipping steadily (v4.1 masks &amp; text shadows, v4.2 webpack plugin, v4.3 scrollbar utilities).</li>
+          <li>An <b>enormous</b> ecosystem: paid template libraries, thousands of blog posts, every UI kit, every LLM's default output.</li>
+          <li>Any new hire has probably already used it.</li>
+        </ul>
+        <div class="cost"><b>Watch for:</b> gravity. Hard to argue against, easy to end up with by default rather than by decision.</div>
+      </div>
+      <div class="card sx">
+        <span class="lbl">StyleX · v0.19</span>
+        <h3>The considered answer</h3>
+        <ul class="pts">
+          <li>By <b>Meta</b>; open-sourced Dec 2023. Runs facebook.com, instagram.com, WhatsApp Web and Threads — proof it scales further than your app will.</li>
+          <li>Active: v0.19 added <code>@stylexjs/atoms</code> for inline atomic styles, and there is a public <b>v1.0 roadmap</b>.</li>
+          <li>Adopted mostly by teams building a <b>design system</b> rather than an app.</li>
+        </ul>
+        <div class="cost"><b>Watch for:</b> still <b>0.x</b>, with a far smaller community. Fewer answers online, fewer ready-made components, more decisions you make yourself.</div>
+      </div>
+    </div>
+    <div class="foot">Honest framing: one is a safe default with a ceiling on rigor; the other is a rigorous bet with a smaller safety net.</div>
+  </div>
+</section>
+
+<!-- ================= 26 · wiring & dx ================= -->
+<section class="ch5">
+  <header><span class="kicker">Ch 5 · Toolchain &amp; ecosystem</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>Wiring &amp; <em>day-to-day DX</em></h2>
-    <div class="cols w64" style="margin-top:6px">
-      <div class="stack">
-        <div class="code sx"><header><span class="fname">vite.config.ts · babel transforms, postcss extracts</span></header><pre class="sm" data-lang="ts">export default defineConfig(({ mode }) =&gt; ({
-  plugins: [react({ babel: { plugins: [
-    ['@stylexjs/babel-plugin', {
-      dev: mode === 'development',
-      unstable_moduleResolution: { type: 'commonJS' },
-    }],
-  ] } })],
-  // + @stylexjs/postcss-plugin gathers every atom
-  //   into one static stylex.css
-}));</pre></div>
-        <div class="code sx"><header><span class="fname">eslint.config.js · the guardrails</span></header><pre class="sm" data-lang="ts">rules: {
-  '@stylexjs/valid-styles': 'error',     // property &amp; value sanity
-  '@stylexjs/valid-shorthands': 'warn',  // no multi-value shorthands
-  '@stylexjs/no-unused': 'warn',         // dead styles get flagged
-  '@stylexjs/sort-keys': 'warn',
-},</pre></div>
+    <div class="cols" style="margin-top:6px">
+      <div>
+        <div class="code tw"><header><span class="fname">tailwind v4 · two lines</span></header><pre class="sm" data-lang="ts">// vite.config.ts
+import tailwindcss from '@tailwindcss/vite';
+export default defineConfig({ plugins: [tailwindcss()] });
+
+// app.css
+@import "tailwindcss";</pre></div>
+        <ul class="pts tight" style="margin-top:14px">
+          <li>Setup is <b>minutes</b>; official plugins for Vite, PostCSS and webpack.</li>
+          <li><b>IntelliSense extension</b> is the DX story: completion, hover-preview, conflict warnings.</li>
+          <li><b>Tailwind Play</b> — share a reproduction in a URL, no install.</li>
+        </ul>
       </div>
-      <ul class="pts tight">
-        <li>Three packages do the work: <code>babel-plugin</code> (transform), <code>postcss-plugin</code> (extract), <code>eslint-plugin</code> (guardrails).</li>
-        <li><code>dev: true</code> → readable class names in devtools: <code>Button__styles.root&nbsp;x1y2z3</code>.</li>
-        <li>Compilation being the feature means <b>quick REPLs need setup</b> — keep a scratch fixture app around.</li>
-        <li>No editor extension required — <b>TypeScript is the IntelliSense</b>.</li>
-      </ul>
+      <div>
+        <div class="code sx"><header><span class="fname">stylex · three moving parts</span></header><pre class="sm" data-lang="ts">// vite.config.ts — babel transforms
+plugins: [react({ babel: { plugins: [
+  ['@stylexjs/babel-plugin', { dev: mode === 'development',
+    unstable_moduleResolution: { type: 'commonJS' } }],
+] } })]
+// + @stylexjs/postcss-plugin  → extracts one static stylex.css
+// + @stylexjs/eslint-plugin   → valid-styles, valid-shorthands,
+//                               no-unused, sort-keys</pre></div>
+        <ul class="pts tight" style="margin-top:14px">
+          <li>More setup, and it is <b>build-coupled</b> — no zero-config playground.</li>
+          <li><b>TypeScript is the IntelliSense</b> — no editor extension to install.</li>
+          <li><code>dev: true</code> keeps readable devtools names: <code>Button__styles.root</code>.</li>
+        </ul>
+      </div>
     </div>
+    <div class="foot">A fair summary: Tailwind optimises the <b>first ten minutes</b>, StyleX optimises the <b>ten-thousandth commit</b>. Which matters more is a real question about your project, not a rhetorical one.</div>
   </div>
 </section>
 
-<!-- ================= 27 · what you'll miss ================= -->
+<!-- ================= 27 · tradeoffs both directions ================= -->
 <section class="ch6">
-  <header><span class="kicker">Ch 6 · Tradeoffs &amp; landing</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 6 · Verdicts</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>What you'll <em>honestly miss</em></h2>
-    <table style="margin-top:4px">
-      <tr><th>you'll miss…</th><th>the mitigation</th></tr>
-      <tr><td>prototyping speed of utilities</td><td>your components become the utilities; a local <code>stylex.create</code> one-off is five lines</td></tr>
-      <tr><td>Tailwind UI, templates, v0 copy-paste</td><td>the cookbook (ch 4) translates mechanically — and LLMs are very good at exactly this translation</td></tr>
-      <tr><td>styling markdown / CMS content you don't render</td><td>a plain CSS file scoped to prose — still allowed, still normal (slide 16, hatch #3)</td></tr>
-      <tr><td>Tailwind IntelliSense muscle memory</td><td>the language is CSS again; TypeScript autocompletes properties, values, and tokens</td></tr>
-      <tr><td>an enormous community of answers</td><td>smaller ecosystem, but the API surface is tiny and “Thinking in StyleX” covers the philosophy in one sitting</td></tr>
-    </table>
-    <div class="foot">If a slide deck claims a migration has no downsides, close the tab. These are real — just <b>priced in</b>.</div>
+    <h2>Tradeoffs, <em>both directions</em></h2>
+    <p class="lead">Every comparison that only lists one side's downsides is marketing. Here is what you
+    actually give up, whichever way you go.</p>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Leaving Tailwind, you will miss</span>
+        <ul class="pts">
+          <li><b>Raw speed.</b> Three words of class beat a twelve-line object at 5pm.</li>
+          <li><b>The ecosystem.</b> Templates, UI kits, Stack Overflow, and every AI model's default output.</li>
+          <li><b>Reach.</b> Styling markdown, CMS prose, emails, and non-JS templates.</li>
+          <li><b>Play.</b> A shareable repro in a URL with nothing installed.</li>
+        </ul>
+      </div>
+      <div class="card sx">
+        <span class="lbl">Leaving StyleX, you will miss</span>
+        <ul class="pts">
+          <li><b>The type checker.</b> Typos and bad values stop being a runtime surprise.</li>
+          <li><b>Deterministic merging</b> with no merge library in the bundle.</li>
+          <li><b>Typed contracts.</b> Knowing exactly what callers may restyle.</li>
+          <li><b>Refactorability.</b> Rename a token, find every use, delete dead styles with proof.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot">Notice these lists are not opposites — they are <b>different kinds of good</b>. Speed and reach on one side, guarantees and refactorability on the other.</div>
   </div>
 </section>
 
-<!-- ================= 28 · gotchas ================= -->
+<!-- ================= 28 · day one gotchas ================= -->
 <section class="ch6">
-  <header><span class="kicker">Ch 6 · Tradeoffs &amp; landing</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 6 · Verdicts</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>Day-one <em>gotchas</em></h2>
-    <div class="cols" style="margin-top:8px">
-      <ul class="pts tight">
-        <li><b>1 ·</b> <code>margin: '8px 16px'</code> is rejected — write longhands: <code>marginBlock: 8, marginInline: 16</code>.</li>
-        <li><b>2 ·</b> You can't style children. <code>.card:hover .icon</code> doesn't exist — style the child directly and pass state via props. <b>Style the owner, not the tree.</b></li>
-        <li><b>3 ·</b> Token files end in <code>.stylex.ts</code> and may export only <code>defineVars</code>/<code>defineConsts</code>. Compiler contract, not superstition.</li>
-        <li><b>4 ·</b> <code>stylex.create</code> lives at module top level with static keys — no factories, no objects built at runtime.</li>
-      </ul>
-      <ul class="pts tight">
-        <li><b>5 ·</b> Conditionals are <code>cond &amp;&amp; styles.x</code> inside <code>props()</code> — never assembled strings.</li>
-        <li><b>6 ·</b> Numbers become <code>px</code> — except unitless properties (<code>lineHeight</code>, <code>opacity</code>, <code>zIndex</code>, <code>fontWeight</code>, <code>flexGrow</code>…).</li>
-        <li><b>7 ·</b> Pseudo-element text needs nested quotes: <code>content: '""'</code>.</li>
-        <li><b>8 ·</b> There is no <code>!important</code>. You won't need it — precedence is argument order, remember?</li>
-      </ul>
+    <p class="lead">The things that trip people up in week one, in whichever direction they are travelling.</p>
+    <div class="cols vc">
+      <div class="card sx">
+        <span class="lbl">First week in StyleX</span>
+        <ul class="pts">
+          <li>Multi-value shorthands are rejected: write <code>marginBlock</code> / <code>marginInline</code>, not <code>margin: '8px 16px'</code>.</li>
+          <li><b>You cannot style children.</b> No <code>.card:hover .icon</code> — style the owner, pass state down.</li>
+          <li><code>create()</code> lives at module top level with static keys. No factories.</li>
+          <li>Numbers become <code>px</code>, except unitless properties (<code>lineHeight</code>, <code>opacity</code>, <code>zIndex</code>).</li>
+          <li>Conditionals are <code>cond &amp;&amp; styles.x</code> arguments — never assembled strings.</li>
+        </ul>
+      </div>
+      <div class="card tw">
+        <span class="lbl">First week in Tailwind</span>
+        <ul class="pts">
+          <li><b>Class names must appear whole in the source.</b> <code>bg-${c}-500</code> is invisible to the scanner — map to full class strings.</li>
+          <li>String order does nothing. To override reliably you need <code>tailwind-merge</code>.</li>
+          <li>Arbitrary values need brackets: <code>w-[137px]</code>, <code>bg-[#0b0e17]</code>.</li>
+          <li>v4 config is <b>CSS-first</b> (<code>@theme</code>) — most tutorials still show <code>tailwind.config.js</code>.</li>
+          <li>Install the Prettier sort plugin on day one, or class strings become unreadable.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= 29 · cheat sheet ================= -->
+<!-- ================= 29 · choose when ================= -->
 <section class="ch6">
-  <header><span class="kicker">Ch 6 · Tradeoffs &amp; landing</span><span class="snum"></span></header>
+  <header><span class="kicker">Ch 6 · Verdicts</span><span class="snum"></span></header>
+  <div class="sbody">
+    <h2>So: <em>which one?</em></h2>
+    <div class="cols vc">
+      <div class="card tw">
+        <span class="lbl">Choose Tailwind when</span>
+        <ul class="pts">
+          <li><b>Any</b> of your HTML comes from a non-JS template. This alone decides it.</li>
+          <li>Speed to ship dominates: prototype, marketing site, small team, startup.</li>
+          <li>The team is already fluent — and you are hiring for that fluency.</li>
+          <li>You lean on templates, UI kits, or AI codegen to move fast.</li>
+          <li>You want styling that outlives your current framework choice.</li>
+        </ul>
+      </div>
+      <div class="card sx">
+        <span class="lbl">Choose StyleX when</span>
+        <ul class="pts">
+          <li>You are building a <b>design system consumed by many apps</b>, not one app.</li>
+          <li>You need to stop silent forks — typed contracts over open <code>className</code>.</li>
+          <li>Large, long-lived React codebase that gets refactored repeatedly.</li>
+          <li>Multi-brand or nested theming needs to be a first-class value.</li>
+          <li>The team prefers compile-time guarantees over terseness.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><b>And if it is a toss-up</b> — an ordinary React product app with no design-system ambitions — it genuinely does not matter much. Pick the one your team already reads fluently, and spend the saved argument on tokens and accessibility instead.</div>
+  </div>
+</section>
+
+<!-- ================= 30 · cheat sheet ================= -->
+<section class="ch6">
+  <header><span class="kicker">Ch 6 · Verdicts</span><span class="snum"></span></header>
   <div class="sbody">
     <h2>The <em>cheat sheet</em></h2>
     <table style="margin-top:2px;font-size:14px">
-      <tr><th class="cy">the reflex</th><th class="pk">the replacement</th></tr>
-      <tr><td><code>className="p-4 flex"</code></td><td><code>stylex.create</code> + <code>{...stylex.props(styles.x)}</code></td></tr>
-      <tr><td><code>cn()</code> / clsx / tailwind-merge</td><td>argument order in <code>stylex.props()</code> — last wins</td></tr>
-      <tr><td><code>cva()</code> variants</td><td>style objects + <code>variants[variant]</code>, types via <code>keyof typeof</code></td></tr>
-      <tr><td><code>@theme</code> / tailwind.config</td><td><code>defineVars()</code> in <code>*.stylex.ts</code> token modules</td></tr>
-      <tr><td><code>dark:</code> prefix</td><td><code>createTheme()</code>, or <code>prefers-color-scheme</code> conditions in tokens</td></tr>
-      <tr><td><code>sm:</code> / <code>lg:</code> prefixes</td><td><code>'@media'</code> keys per property (+ <code>defineConsts</code>)</td></tr>
-      <tr><td><code>hover:</code> / <code>focus-visible:</code></td><td><code>{ default, ':hover' }</code> conditions — or RAC render props</td></tr>
-      <tr><td><code>w-[137px]</code> arbitrary values</td><td>just <code>width: 137</code> — or a dynamic style for runtime values</td></tr>
-      <tr><td><code>@apply</code></td><td>a named style in <code>create()</code> — it's just an object</td></tr>
-      <tr><td><code>asChild</code> / <code>Slot</code></td><td>React Aria render props &amp; composition</td></tr>
-      <tr><td><code>globals.css</code></td><td>still allowed: resets, prose, third-party widgets</td></tr>
+      <tr><th>concept</th><th class="cy">tailwind</th><th class="pk">stylex</th></tr>
+      <tr><td>write a style</td><td class="cy"><code>className="p-4 flex"</code></td><td class="pk"><code>stylex.create</code> + <code>{...stylex.props(s.x)}</code></td></tr>
+      <tr><td>combine styles</td><td class="cy"><code>cn()</code> / clsx + tailwind-merge</td><td class="pk">argument order — last wins</td></tr>
+      <tr><td>variants</td><td class="cy"><code>cva()</code></td><td class="pk">objects + <code>variants[variant]</code></td></tr>
+      <tr><td>tokens</td><td class="cy"><code>@theme</code> in CSS</td><td class="pk"><code>defineVars()</code> in <code>*.stylex.ts</code></td></tr>
+      <tr><td>dark mode</td><td class="cy"><code>dark:</code> variant</td><td class="pk"><code>createTheme()</code> or media conditions</td></tr>
+      <tr><td>responsive</td><td class="cy"><code>sm:</code> <code>lg:</code> prefixes</td><td class="pk"><code>'@media'</code> keys per property</td></tr>
+      <tr><td>states</td><td class="cy"><code>hover:</code> <code>focus-visible:</code></td><td class="pk"><code>{ default, ':hover' }</code> per property</td></tr>
+      <tr><td>one-off value</td><td class="cy"><code>w-[137px]</code></td><td class="pk"><code>width: 137</code></td></tr>
+      <tr><td>runtime value</td><td class="cy">inline <code>style</code> attribute</td><td class="pk">dynamic style fn → CSS variable</td></tr>
+      <tr><td>reusable chunk</td><td class="cy"><code>@apply</code> (or a component)</td><td class="pk">a named style — it is just an object</td></tr>
+      <tr><td>animation</td><td class="cy"><code>animate-*</code> + <code>@keyframes</code></td><td class="pk"><code>stylex.keyframes()</code> → <code>animationName</code></td></tr>
+      <tr><td>non-JS templates</td><td class="cy">✔ works anywhere</td><td class="pk">✘ JS module graph only</td></tr>
     </table>
   </div>
 </section>
 
-<!-- ================= 30 · fin ================= -->
+<!-- ================= 31 · fin ================= -->
 <section class="ch6">
   <header><span class="kicker">Fin</span><span class="snum"></span></header>
   <div class="sbody">
-    <h2>Keep <em>going</em></h2>
+    <h2>Read <em>both</em> fluently</h2>
     <div class="cols w46" style="margin-top:10px">
-      <div class="card" style="padding:30px 32px;align-self:start">
-        <h3 style="font-size:30px;line-height:1.25;letter-spacing:-.02em">Same atoms.<br>New grammar.<br><span style="background:linear-gradient(92deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent">Ship.</span></h3>
-        <p style="margin-top:16px" class="xdim">Press <kbd>O</kbd> to see the whole map again.</p>
+      <div class="card" style="padding:28px 30px;align-self:start">
+        <h3 style="font-size:27px;line-height:1.28;letter-spacing:-.02em">Same atoms.<br>Different grammar.<br><span style="background:linear-gradient(92deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent">Pick on purpose.</span></h3>
+        <p style="margin-top:16px" class="xdim">Press <kbd>O</kbd> for the whole map.</p>
       </div>
-      <ul class="pts">
-        <li><b>stylexjs.com</b> — the docs. Read <i>“Thinking in StyleX”</i> first; it's the philosophy chapter and it's short.</li>
-        <li><b>github.com/facebook/stylex</b> — the issue tracker doubles as an archive of API design decisions.</li>
-        <li><b>react-spectrum.adobe.com/react-aria</b> — the behavior layer's docs; the “collections” and “selection” pages pay for themselves.</li>
-        <li><b>tailwindcss.com</b> — keep it bookmarked; you translate best from a language you still read fluently.</li>
-        <li><b>this deck</b> — one MIT-licensed HTML file. View source, fork it, present it to your team.</li>
-      </ul>
+      <div>
+        <ul class="pts tight">
+          <li><b>tailwindcss.com</b> — docs; the v4 upgrade guide is the fastest way to un-learn v3 habits.</li>
+          <li><b>stylexjs.com</b> — docs; read <i>“Thinking in StyleX”</i> first, it is the philosophy chapter and it is short.</li>
+          <li><b>github.com/facebook/stylex</b> — the v1.0 roadmap issue is the honest status page.</li>
+          <li><b>Next in this series:</b> <a href="https://dima-gusyatiner.github.io/radix-vs-react-aria/">Radix vs React Aria</a> — the behavior half of the same component.</li>
+          <li><b>This deck</b> — one MIT-licensed HTML file. View source, fork it, present it.</li>
+        </ul>
+        <div class="foot" style="margin-top:18px">Written August 2026 · Tailwind <b>v4.3</b> · StyleX <b>v0.19</b>.<br>
+        Comparisons rot — if something here is out of date, <b>please open an issue or a PR</b>.</div>
+      </div>
     </div>
   </div>
 </section>
+
 </main>
 
 <div id="hud">
